@@ -1,7 +1,9 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 const Header = () => {
+  const nav = useNavigate();
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -15,6 +17,7 @@ const Header = () => {
               <Nav.Link
                 href="#features"
                 style={{ color: "#FFD93D", fontSize: "17px" }}
+                onClick={() => nav("/popularmovies")}
               >
                 Popular Movies
               </Nav.Link>
@@ -25,6 +28,7 @@ const Header = () => {
                   fontSize: "17px",
                   paddingLeft: "30px",
                 }}
+                onClick={() => nav("/latestmovies")}
               >
                 Latest Movies
               </Nav.Link>
@@ -35,6 +39,7 @@ const Header = () => {
                   fontSize: "17px",
                   paddingLeft: "30px",
                 }}
+                onClick={() => nav("/comedymovies")}
               >
                 Comedy Movies
               </Nav.Link>
