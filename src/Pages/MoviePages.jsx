@@ -1,5 +1,4 @@
-import React from "react";
-import { imageUrl } from "../URL/Url";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   MDBCard,
@@ -10,25 +9,32 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 import Footer from "../Header/Footer";
-import { useEffect } from "react";
-import { useState } from "react";
-import MovieCarousel from "./MovieCarousel";
+import { useNavigate, Link } from "react-router-dom";
+import { idContext } from "./MainPage";
+import { imageUrl } from "../URL/Url";
 import Banner from "./Banner";
 
 const MoviePages = (props) => {
+  const { id, updatedId, setcurrentUrl, updatedBanner } = useContext(idContext);
   const [item, setItem] = useState([]);
+
   useEffect(() => {
     axios.get(props.apiURL).then((res) => setItem(res.data.results));
+    setcurrentUrl(props.apiURL);
+    updatedBanner(true);
   }, [props.apiURL]);
+
+  const nav = useNavigate();
+  const buttonClick = (e) => {
+    updatedId(e);
+    updatedBanner(false);
+    // nav("/movieInfo");
+    console.log(e);
+  };
 
   return (
     <div>
-      {/* -----------------------------Carousel ------------------------------*/}
-      <div>
-        {/* <MovieCarousel apiURL={props.apiURL} /> */}
-        <Banner apiURL={props.apiURL} />
-      </div>
-      {/* ---------------------------------------------------header----------------------------- */}
+      {/* <Banner apiURL={props.apiURL} /> */}
       <div>
         <h3
           style={{
@@ -42,7 +48,6 @@ const MoviePages = (props) => {
         </h3>
       </div>
       <br />
-      {/* ------------------------------------------cards--------------------------------------- */}
       <div
         style={{
           display: "flex",
@@ -57,6 +62,7 @@ const MoviePages = (props) => {
               alignItems: "center",
               marginLeft: "50px",
             }}
+            key={items.id}
           >
             <MDBCard style={{ height: "450px", width: "260px" }}>
               <MDBCardImage
@@ -67,21 +73,22 @@ const MoviePages = (props) => {
               />
               <MDBCardBody style={{ textAlign: "center" }}>
                 <MDBCardTitle>{items.title || items.name}</MDBCardTitle>
-                <MDBCardText>Language : {items.original_language}</MDBCardText>
-                <MDBBtn
-                  href="#"
-                  color="warning"
-                  className="mx-6"
-                  style={{ color: "white" }}
-                >
-                  Watch Now
-                </MDBBtn>
+                <MDBCardText>Language: {items.original_language}</MDBCardText>
+                <Link to={`/movieInfo/${items}`}>
+                  <MDBBtn
+                    color="warning"
+                    className="mx-6"
+                    style={{ color: "white" }}
+                    onClick={() => buttonClick(items)}
+                  >
+                    Details
+                  </MDBBtn>
+                </Link>
               </MDBCardBody>
             </MDBCard>
           </div>
         ))}
       </div>
-      {/* ----------------------------------Footer--------------------------*/}
       <div>
         <Footer />
       </div>

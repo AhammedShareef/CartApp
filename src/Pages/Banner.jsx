@@ -18,7 +18,7 @@ const Banner = ({ apiURL }) => {
         );
     }
   }, [apiURL]);
-  console.log(item);
+
   return (
     <div>
       {item && (
