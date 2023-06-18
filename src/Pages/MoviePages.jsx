@@ -17,7 +17,7 @@ import Banner from "./Banner";
 const MoviePages = (props) => {
   const { id, updatedId, setcurrentUrl, updatedBanner } = useContext(idContext);
   const [item, setItem] = useState([]);
-
+  console.log(props.search);
   useEffect(() => {
     axios.get(props.apiURL).then((res) => setItem(res.data.results));
     setcurrentUrl(props.apiURL);
@@ -55,39 +55,51 @@ const MoviePages = (props) => {
           marginTop: "10px",
         }}
       >
-        {item.map((items) => (
-          <div
-            style={{
-              padding: "15px",
-              alignItems: "center",
-              marginLeft: "50px",
-            }}
-            key={items.id}
-          >
-            <MDBCard style={{ height: "450px", width: "260px" }}>
-              <MDBCardImage
-                style={{ height: "300px", width: "100%" }}
-                src={imageUrl + items.backdrop_path}
-                position="top"
-                alt="..."
-              />
-              <MDBCardBody style={{ textAlign: "center" }}>
-                <MDBCardTitle>{items.title || items.name}</MDBCardTitle>
-                <MDBCardText>Language: {items.original_language}</MDBCardText>
-                <Link to={`/movieInfo/${items}`}>
-                  <MDBBtn
-                    color="warning"
-                    className="mx-6"
-                    style={{ color: "white" }}
-                    onClick={() => buttonClick(items)}
-                  >
-                    Details
-                  </MDBBtn>
-                </Link>
-              </MDBCardBody>
-            </MDBCard>
-          </div>
-        ))}
+        {item.map((items) => {
+          if (
+            props.search &&
+            (!items.name ||
+              !items.name.toLowerCase().includes(props.search.toLowerCase())) &&
+            (!items.title ||
+              !items.title.toLowerCase().includes(props.search.toLowerCase()))
+          ) {
+            return null;
+          }
+
+          return (
+            <div
+              style={{
+                padding: "15px",
+                alignItems: "center",
+                marginLeft: "50px",
+              }}
+              key={items.id}
+            >
+              <MDBCard style={{ height: "450px", width: "260px" }}>
+                <MDBCardImage
+                  style={{ height: "300px", width: "100%" }}
+                  src={imageUrl + items.backdrop_path}
+                  position="top"
+                  alt="..."
+                />
+                <MDBCardBody style={{ textAlign: "center" }}>
+                  <MDBCardTitle>{items.title || items.name}</MDBCardTitle>
+                  <MDBCardText>Language: {items.original_language}</MDBCardText>
+                  <Link to={`/movieInfo/${items}`}>
+                    <MDBBtn
+                      color="warning"
+                      className="mx-6"
+                      style={{ color: "white" }}
+                      onClick={() => buttonClick(items)}
+                    >
+                      Details
+                    </MDBBtn>
+                  </Link>
+                </MDBCardBody>
+              </MDBCard>
+            </div>
+          );
+        })}
       </div>
       <div>
         <Footer />

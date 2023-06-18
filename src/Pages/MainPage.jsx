@@ -13,6 +13,8 @@ const MainPage = () => {
   const [id, setId] = useState("");
   const [currentUrl, setcurrentUrl] = useState(PopularMoviesAPI);
   const [banner, setBanner] = useState(true);
+  const [search, setSearch] = useState("");
+  console.log(search);
 
   const updatedId = (updatedData) => {
     setId(updatedData);
@@ -31,25 +33,37 @@ const MainPage = () => {
         value={{ id, updatedId, setcurrentUrl, updatedBanner }}
       >
         <BrowserRouter>
-          <Header />
+          <Header search={search} setSearch={setSearch} />
           {banner && <Banner apiURL={currentUrl} />}
           <Routes>
             <Route
               path="/popularmovies"
               element={
-                <MoviePages apiURL={PopularMoviesAPI} name={"POPULAR MOVIES"} />
+                <MoviePages
+                  search={search}
+                  apiURL={PopularMoviesAPI}
+                  name={"POPULAR MOVIES"}
+                />
               }
             />
             <Route
               path="/latestmovies"
               element={
-                <MoviePages apiURL={LatestMoviesAPI} name={"LATEST MOVIES"} />
+                <MoviePages
+                  search={search}
+                  apiURL={LatestMoviesAPI}
+                  name={"LATEST MOVIES"}
+                />
               }
             />
             <Route
               path="/comedymovies"
               element={
-                <MoviePages apiURL={ComedyMoviesAPI} name={"COMEDY MOVIES"} />
+                <MoviePages
+                  search={search}
+                  apiURL={ComedyMoviesAPI}
+                  name={"COMEDY MOVIES"}
+                />
               }
             />
             <Route path="/movieInfo/:id" element={<MovieInfo />} />

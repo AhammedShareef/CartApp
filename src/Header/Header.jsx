@@ -1,9 +1,18 @@
 import React from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useState } from "react";
+import {
+  Container,
+  Nav,
+  Navbar,
+  Form,
+  FormControl,
+  Button,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const Header = () => {
-  const nav = useNavigate();
+const Header = ({ setSearch }) => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -17,7 +26,7 @@ const Header = () => {
               <Nav.Link
                 href="#features"
                 style={{ color: "#FFD93D", fontSize: "17px" }}
-                onClick={() => nav("/popularmovies")}
+                onClick={() => navigate("/popularmovies")}
               >
                 Popular Movies
               </Nav.Link>
@@ -28,7 +37,7 @@ const Header = () => {
                   fontSize: "17px",
                   paddingLeft: "30px",
                 }}
-                onClick={() => nav("/latestmovies")}
+                onClick={() => navigate("/latestmovies")}
               >
                 Latest Movies
               </Nav.Link>
@@ -39,11 +48,21 @@ const Header = () => {
                   fontSize: "17px",
                   paddingLeft: "30px",
                 }}
-                onClick={() => nav("/comedymovies")}
+                onClick={() => navigate("/comedymovies")}
               >
                 Comedy Movies
               </Nav.Link>
             </Nav>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>
