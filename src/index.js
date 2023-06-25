@@ -4,6 +4,8 @@ import './index.css';
 import "./Styles.css"
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import CartModal from './Pages/CartModal';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 
 
@@ -12,6 +14,7 @@ root.render(
   <React.StrictMode>
    
     <App />
+    
   
   </React.StrictMode>
 );
